@@ -8,7 +8,7 @@ open_init membutuhkan 4 parameter, dan akan mengembalikan integer
 int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int *n);
 
 Arti value yg dikembalikan:
-  - 0 : Terdapat error, baik file tidak ada ataupun format file salah. Pesan output sudah tersedia
+  - 0 : Terdapat error, baik file tidak ada ataupun format file salah, ataupun jumlah kota kurang sesuai. Pesan output sudah tersedia
   - 1 : file dapat dibuka dan matriks telah terisi
 
 Parameter yg diperlukan
