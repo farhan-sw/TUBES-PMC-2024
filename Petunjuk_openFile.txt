@@ -1,0 +1,20 @@
+Panggil file dengan nulis
+#include "openFile.h"
+di awal
+
+File ini mengandung 1 fungsi utama, yakni open_init, sedangkan count_delim hanya untuk membantu
+
+open_init membutuhkan 4 parameter, dan akan mengembalikan integer
+int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int *n);
+
+Arti value yg dikembalikan:
+  - 0 : Terdapat error, baik file tidak ada ataupun format file salah. Pesan output sudah tersedia
+  - 1 : file dapat dibuka dan matriks telah terisi
+
+Parameter yg diperlukan
+  - char *namaFile : string nama file
+  - float matriks[15][15] : adjecency matrix
+  - char namaKota[15][255] : nama nama kota, akan berguna untuk pengoutputan
+  - int *n : jumlah kota pada file yang diberikan
+
+Disarankan untuk membaca bagian untuk testing :D
