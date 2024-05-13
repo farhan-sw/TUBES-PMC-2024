@@ -44,6 +44,11 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
         // printf("\n%s %f %f", namaKota[*n], latitude[*n], longitude[*n]);
         *n += 1;
     }
+    // Pengecekan apakah jumlah kota sesuai ketentuan (6 <= jumlah kota <= 15)
+    if (*n >= 5 || *n <= 14){
+        printf("\nJumlah kota tidak sesuai!");
+        return 0;
+    }
     // Pengisian adjecent matriks, yang berisi jarak tiap titik ke titik lainnya
     for (int i = 0; i < *n; i++){
         for (int j = 0; j < *n; j++){
