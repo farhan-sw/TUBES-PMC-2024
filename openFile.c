@@ -44,8 +44,9 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
         // printf("\n%s %f %f", namaKota[*n], latitude[*n], longitude[*n]);
         *n += 1;
     }
+    
     // Pengecekan apakah jumlah kota sesuai ketentuan (6 <= jumlah kota <= 15)
-    if (*n >= 5 || *n <= 14){
+    if (*n < 5 || *n > 14){
         printf("\nJumlah kota tidak sesuai!");
         return 0;
     }
@@ -60,21 +61,21 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
 }
 
 // Untuk testing
-// int main(){
-//     float matriks[15][15];
-//     int n = 0;
-//     char namaKota[15][255];
-//     char namaFile[255];
-//     scanf("%s", namaFile);
+int main(){
+    float matriks[15][15];
+    int n = 0;
+    char namaKota[15][255];
+    char namaFile[255];
+    scanf("%s", namaFile);
 
-//     if (open_init(namaFile, matriks, namaKota, &n) == 0){
-//         return 0;
-//     }
-//     printf("\n");
-//     for (int i = 0; i < n; i ++){
-//         for (int j = 0; j < n; j++){
-//             printf("%f ", matriks[i][j]);
-//         }
-//         printf("\n");
-//     }
-// }
+    if (open_init(namaFile, matriks, namaKota, &n) == 0){
+        return 0;
+    }
+    printf("\n");
+    for (int i = 0; i < n; i ++){
+        for (int j = 0; j < n; j++){
+            printf("%f ", matriks[i][j]);
+        }
+        printf("\n");
+    }
+}
