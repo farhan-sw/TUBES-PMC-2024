@@ -22,7 +22,7 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
     // Pembukaan dan pengecekan keberadaan file
     FILE *file = fopen(namaFile, "r");
     if (file == NULL){
-        printf("\nFile tidak ada!");
+        printf("\nFile tidak ada!\n");
         return 0;
     }
     // Inisiasi variable lokal yang akan digunakan untuk fungsi open_init
