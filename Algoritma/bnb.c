@@ -51,18 +51,6 @@ void branchAndBound(float adjacencyMatrix[MAX_CITY][MAX_CITY], int path[MAX_CITY
             visited[i] = false;
         }
     }
-
-    // Pruning: Memeriksa apakah tidak ada kota yang tersisa untuk dikunjungi
-    bool allVisited = true;
-    for (int i = 0; i < numVertices; i++) {
-        if (!visited[i]) {
-            allVisited = false;
-            break;
-        }
-    }
-    if (allVisited) {
-        return;
-    }
 }
 
 
