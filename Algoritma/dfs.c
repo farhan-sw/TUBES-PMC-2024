@@ -8,8 +8,8 @@
 #include <time.h>
 
 
-#define MAX_DFS 255
-#define INF_DFS 999999
+#define MAX 255
+#define INF 999999
 
 int visited_dfs[15];
 int top_dfs = -1;
@@ -45,7 +45,7 @@ int fac(int n){
 }
 
 // Untuk mencari indeks dari kota yang dicari
-int find_city_index(char listOfCities[15][MAX_DFS], char city[MAX_DFS]){
+int find_city_index(char listOfCities[15][MAX], char city[MAX]){
     for (int j = 0; j < 15; j++){
         if (strcmp(city, listOfCities[j]) == 0){
             return j;
@@ -127,7 +127,7 @@ int dfs(char fileName[MAX], char startCity[MAX]){
 
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
-    float min = INF_DFS;
+    float min = INF;
     int shortestRoute[15];
     float localDistance = 0;
 
