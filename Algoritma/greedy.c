@@ -15,13 +15,17 @@ https://www.ibm.com/docs/en/zos/2.4.0?topic=functions-clock-determine-processor-
 */
 
 // Fungsi untuk mencari indeks dalam matriks dari suatu kota
-void search(char namakota[255], char kota[15][255], int *ind){
-    int i = 0;
+int search(char namakota[255], char kota[15][255], int *ind){
+    int i;
     for(i = 0; i < 15; i++){
         if(strcmp(kota[i], namakota) == 0){
             *ind = i;
+            return 0;
         }
     }
+
+    // Jika tidak ditemukan
+    return -1;
 }
 
 // Fungsi untuk menyelesaikan Travelling Salesman Problem dengan algoritma greedy
@@ -74,14 +78,20 @@ int main(){
     scanf("%s", filename);
 
     // Membuka file dan menyimpan jarak dalam matrix
-    if(open_init(filename, matrix, namaKota, &n) == 0) {
-        return 0;
+    while(open_init(filename, matrix, namaKota, &n) == 0) {
+        printf("\nEnter list of cities file name: ");
+        scanf("%s", filename);
     }
 
     // Input kota awal
     printf("Enter starting point: ");
     scanf("%s", buff);
-    search(buff, namaKota, &ind_kota);
+
+    while(search(buff, namaKota, &ind_kota) == -1) {
+        printf("\n%s coordinates is not available in the database! \nEnter starting point: ", buff);
+        scanf("%s", buff);
+    }
+
     printf("Best route found: ");
     start_time = clock();                                                       // Waktu mulai menjalankan algoritma
     travellingsalesman(ind_kota, ind_kota,matrix, visited, n, &cost, namaKota); // Memanggil algoritma greedy
