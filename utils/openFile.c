@@ -60,22 +60,22 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
     return 1;
 }
 
-// Untuk testing
-int main(){
-    float matriks[15][15];
-    int n = 0;
-    char namaKota[15][255];
-    char namaFile[255];
-    scanf("%s", namaFile);
+// // Untuk testing
+// int main(){
+//     float matriks[15][15];
+//     int n = 0;
+//     char namaKota[15][255];
+//     char namaFile[255];
+//     scanf("%s", namaFile);
 
-    if (open_init(namaFile, matriks, namaKota, &n) == 0){
-        return 0;
-    }
-    printf("\n");
-    for (int i = 0; i < n; i ++){
-        for (int j = 0; j < n; j++){
-            printf("%f ", matriks[i][j]);
-        }
-        printf("\n");
-    }
-}
+//     if (open_init(namaFile, matriks, namaKota, &n) == 0){
+//         return 0;
+//     }
+//     printf("\n");
+//     for (int i = 0; i < n; i ++){
+//         for (int j = 0; j < n; j++){
+//             printf("%f ", matriks[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }

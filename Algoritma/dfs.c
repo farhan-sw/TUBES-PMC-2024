@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "openFile.h"
+#include "..\utils\openFile.h"
 #include <time.h>
 
 
@@ -75,7 +75,7 @@ int copy_stack(int shortestRoute[15], int n){
 }
 
 // Depth First Search
-void DFS(int currentCity, int lastCity, int destination,float adjacencyMatrix[15][15], int numVertices, 
+void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacencyMatrix[15][15], int numVertices, 
          int *depth, float *min, float *localDistance, int shortestRoute[15]) {
     // Memasukan kota yang sedang dikunjungi ke dalam stack dan juga menambah jaraknya dari kota sebelumnya
     push(currentCity);
@@ -102,59 +102,45 @@ void DFS(int currentCity, int lastCity, int destination,float adjacencyMatrix[15
             // Perjalanan tidak akan dilanjutkan
             float futureDistance = *localDistance + adjacencyMatrix[currentCity][i];
             if (futureDistance <= *min){
-                DFS(i, currentCity, destination, adjacencyMatrix, numVertices, depth, min, localDistance, shortestRoute);
+                DFS_Algorithm(i, currentCity, destination, adjacencyMatrix, numVertices, depth, min, localDistance, shortestRoute);
             }
         }
     }
-    // Menghilangkan riwayat perjalanan sebelumnya (Proses backtracking DFS)
+    // Menghilangkan riwayat perjalanan sebelumnya (Proses backtracking DFS_Algorithm)
     pop();
     *depth = *depth -1;
     *localDistance = *localDistance - adjacencyMatrix[currentCity][lastCity];
 }
 
+// Akan Menerima Input Karakter dari Main, karakter Nama File dan Nama Kota
+int dfs(char fileName[MAX], char startCity[MAX]){
 
-int main() {
     // Inisiasi variable pokok
-    char fileName[MAX];
     float adjacencyMatrix[15][15];
     int numVertices;        
     char cityName[15][MAX];
-    // Pngambilan nama file
-    printf("Enter list of cities file name: ");
-    scanf("%s", fileName);
-    // Proses pembukaan file, dan pengisian variable-variable pokok
-    if (open_init(fileName, adjacencyMatrix, cityName, &numVertices) == 0){
-        return 0;
-    }
-    // Penerimaan input titik mulai
-    char startCiy[MAX];
-    printf("Enter starting point: ");
-    scanf("%s", startCiy);
-    int startCityInd = find_city_index(cityName, startCiy);
-    //Pengecekan apakah nama start kota yang diinput ada dalam file data
-    if (startCityInd == -1){
-        printf("\n%s coordinates is not available in the database!", startCiy);
-        return 0;
-    }
+
+    // Membuka file dan menyimpan jarak dalam graph
+    open_init(fileName, adjacencyMatrix, cityName, &numVertices);
+
+    int startCityInd = find_city_index(cityName, startCity);
+
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
     float min = INF;
     int shortestRoute[15];
     float localDistance = 0;
-    clock_t start_time, end_time;
-    double time_elapsed;
-    // Pemanggilan DFS
-    start_time = clock();
-    DFS(startCityInd, startCityInd, startCityInd, adjacencyMatrix, numVertices, &depth, &min, &localDistance, shortestRoute);
-    end_time = clock();
-    // Menghitung total waktu yang diperlukan untuk menjalankan DFS
-    time_elapsed = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
+    // Pemanggilan DFS_Algorithm
+    DFS_Algorithm(startCityInd, startCityInd, startCityInd, adjacencyMatrix, numVertices, &depth, &min, &localDistance, shortestRoute);
+
     // Pengoutputan rute dan jarak terbaik untuk TSP
     printf("\nBest route found:\n%s", cityName[startCityInd]);
     for(int i = 1; i < numVertices+1; i++){
         printf(" -> %s", cityName[shortestRoute[i]]);
     }
-    printf("\nBest route distance: %f km", min);
-    printf("\nTime Elapsed: %.10f s", time_elapsed);
+
+    printf("\nBest route distance: %.5f km\n", min);
+
     return 0;
 }

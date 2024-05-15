@@ -3,7 +3,9 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
-#include "openFile.h"
+#include "..\utils\openFile.h"
+
+#include "greedy.h"
 
 /* 
 Dibuat oleh : Chobirudin Jamil Yudaprawira (13222113)
@@ -56,10 +58,9 @@ void travellingsalesman(int current_vertex, int starting_vertex, float matrix[15
    travellingsalesman(adj_vertex, starting_vertex, matrix, visited, n, cost, mat_kota); // Rekursif
 }
 
-int main(){
+int greedy(char path_file[MAX], char startCity[MAX]){
+
     // Inisialisasi
-    clock_t start_time, end_time;
-    double timedif;
     char filename[255], buff[255], namaKota[15][255];
     int n = 0, i = 0, j = 0, ind_kota;
 
@@ -73,32 +74,12 @@ int main(){
         visited[i] = 0;
     }
 
-    // Input nama file
-    printf("Enter list of cities file name: ");
-    scanf("%s", filename);
+    open_init(path_file, matrix, namaKota, &n);
+    search(startCity, namaKota, &ind_kota);
 
-    // Membuka file dan menyimpan jarak dalam matrix
-    while(open_init(filename, matrix, namaKota, &n) == 0) {
-        printf("\nEnter list of cities file name: ");
-        scanf("%s", filename);
-    }
-
-    // Input kota awal
-    printf("Enter starting point: ");
-    scanf("%s", buff);
-
-    while(search(buff, namaKota, &ind_kota) == -1) {
-        printf("\n%s coordinates is not available in the database! \nEnter starting point: ", buff);
-        scanf("%s", buff);
-    }
-
-    printf("Best route found: ");
-    start_time = clock();                                                       // Waktu mulai menjalankan algoritma
-    travellingsalesman(ind_kota, ind_kota,matrix, visited, n, &cost, namaKota); // Memanggil algoritma greedy
-    end_time = clock();                                                         // Waktu selesai menjalankan algoritma
-    timedif = ((double) (end_time - start_time))/CLOCKS_PER_SEC;                // Menghitung selisih waktu
+    printf("Best route found: ");                                                     // Waktu mulai menjalankan algoritma
+    travellingsalesman(ind_kota, ind_kota,matrix, visited, n, &cost, namaKota); // Memanggil algoritma greedy               // Menghitung selisih waktu
     printf("\nBest route distance: ");                                          // Mencetak output pada layar
-    printf("%f\n", cost);
-    printf("Time elapsed: %.20f s\n", timedif);
+    printf("%.5f\n", cost);
     return 0;                                                                   // Program berakhir
 }
