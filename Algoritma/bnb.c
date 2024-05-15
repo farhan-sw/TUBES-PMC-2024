@@ -52,7 +52,6 @@ void branchAndBound(float adjacencyMatrix[MAX_CITY][MAX_CITY], int path[MAX_CITY
     }
 }
 
-
 int bnb(char path_file[MAX], char startCity[MAX]) {
     int path[MAX_CITY];
     bool visited[MAX_CITY];
