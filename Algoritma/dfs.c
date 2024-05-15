@@ -11,28 +11,28 @@
 #define MAX 255
 #define INF 999999
 
-int visited[15];
-int top = -1;
+int visited_dfs[15];
+int top_dfs = -1;
 
 // Untuk mengolah stack
 void push(int newdat){
-    if (top == 15){
+    if (top_dfs == 15){
         printf("\nStack Overflow");
         return;
     }
-    top ++;
-    visited[top] = newdat;
+    top_dfs ++;
+    visited_dfs[top_dfs] = newdat;
 }
 
 int pop(){
     int popped_dat;
-    if (top == -1){
+    if (top_dfs == -1){
         printf("\nData kosong");
         exit(1);
     }
-    popped_dat = visited[top];
-    visited[top] = '-';
-    top --;
+    popped_dat = visited_dfs[top_dfs];
+    visited_dfs[top_dfs] = '-';
+    top_dfs --;
     return popped_dat;
 }
 
@@ -55,11 +55,11 @@ int find_city_index(char listOfCities[15][MAX], char city[MAX]){
     return -1;
 }
 
-// Untuk memeriksa apakah kota telah terdapat dalam stack visited
+// Untuk memeriksa apakah kota telah terdapat dalam stack visited_dfs
 int not_on_stack(int kota){
     int temp = -1;
-    for (int i = 0; i < top; i ++){
-        if (visited[i] == kota){
+    for (int i = 0; i < top_dfs; i ++){
+        if (visited_dfs[i] == kota){
             return 0;
         }
     }
@@ -69,7 +69,7 @@ int not_on_stack(int kota){
 // Untuk mengcopy jalur terpendek pada stack ke dalam array di main
 int copy_stack(int shortestRoute[15], int n){
     for (int i = 0; i < n; i++){
-        shortestRoute[i] = visited[i];
+        shortestRoute[i] = visited_dfs[i];
     }
     return 1;
 }
@@ -116,15 +116,27 @@ void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacenc
 int dfs(char fileName[MAX], char startCity[MAX]){
 
     // Inisiasi variable pokok
+    char fileName[MAX];
     float adjacencyMatrix[15][15];
     int numVertices;        
     char cityName[15][MAX];
-
-    // Membuka file dan menyimpan jarak dalam graph
-    open_init(fileName, adjacencyMatrix, cityName, &numVertices);
-
-    int startCityInd = find_city_index(cityName, startCity);
-
+    // Pngambilan nama file
+    printf("Enter list of cities file name: ");
+    scanf("%s", fileName);
+    // Proses pembukaan file, dan pengisian variable-variable pokok
+    if (open_init(fileName, adjacencyMatrix, cityName, &numVertices) == 0){
+        return 0;
+    }
+    // Penerimaan input titik mulai
+    char startCiy[MAX];
+    printf("Enter starting point: ");
+    scanf("%s", startCiy);
+    int startCityInd = find_city_index(cityName, startCiy);
+    //Pengecekan apakah nama start kota yang diinput ada dalam file data
+    if (startCityInd == -1){
+        printf("\n%s coordinates is not available in the database!", startCiy);
+        return 0;
+    }
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
     float min = INF;
