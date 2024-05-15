@@ -8,31 +8,31 @@
 #include <time.h>
 
 
-#define MAX 255
-#define INF 999999
+#define MAX_DFS 255
+#define INF_DFS 999999
 
-int visited[15];
-int top = -1;
+int visited_dfs[15];
+int top_dfs = -1;
 
 // Untuk mengolah stack
 void push(int newdat){
-    if (top == 15){
+    if (top_dfs == 15){
         printf("\nStack Overflow");
         return;
     }
-    top ++;
-    visited[top] = newdat;
+    top_dfs ++;
+    visited_dfs[top_dfs] = newdat;
 }
 
 int pop(){
     int popped_dat;
-    if (top == -1){
+    if (top_dfs == -1){
         printf("\nData kosong");
         exit(1);
     }
-    popped_dat = visited[top];
-    visited[top] = '-';
-    top --;
+    popped_dat = visited_dfs[top_dfs];
+    visited_dfs[top_dfs] = '-';
+    top_dfs --;
     return popped_dat;
 }
 
@@ -45,7 +45,7 @@ int fac(int n){
 }
 
 // Untuk mencari indeks dari kota yang dicari
-int find_city_index(char listOfCities[15][MAX], char city[MAX]){
+int find_city_index(char listOfCities[15][MAX_DFS], char city[MAX_DFS]){
     for (int j = 0; j < 15; j++){
         if (strcmp(city, listOfCities[j]) == 0){
             return j;
@@ -55,11 +55,11 @@ int find_city_index(char listOfCities[15][MAX], char city[MAX]){
     return -1;
 }
 
-// Untuk memeriksa apakah kota telah terdapat dalam stack visited
+// Untuk memeriksa apakah kota telah terdapat dalam stack visited_dfs
 int not_on_stack(int kota){
     int temp = -1;
-    for (int i = 0; i < top; i ++){
-        if (visited[i] == kota){
+    for (int i = 0; i < top_dfs; i ++){
+        if (visited_dfs[i] == kota){
             return 0;
         }
     }
@@ -69,7 +69,7 @@ int not_on_stack(int kota){
 // Untuk mengcopy jalur terpendek pada stack ke dalam array di main
 int copy_stack(int shortestRoute[15], int n){
     for (int i = 0; i < n; i++){
-        shortestRoute[i] = visited[i];
+        shortestRoute[i] = visited_dfs[i];
     }
     return 1;
 }
@@ -115,10 +115,10 @@ void DFS(int currentCity, int lastCity, int destination,float adjacencyMatrix[15
 
 int main() {
     // Inisiasi variable pokok
-    char fileName[MAX];
+    char fileName[MAX_DFS];
     float adjacencyMatrix[15][15];
     int numVertices;        
-    char cityName[15][MAX];
+    char cityName[15][MAX_DFS];
     // Pngambilan nama file
     printf("Enter list of cities file name: ");
     scanf("%s", fileName);
@@ -127,7 +127,7 @@ int main() {
         return 0;
     }
     // Penerimaan input titik mulai
-    char startCiy[MAX];
+    char startCiy[MAX_DFS];
     printf("Enter starting point: ");
     scanf("%s", startCiy);
     int startCityInd = find_city_index(cityName, startCiy);
@@ -138,7 +138,7 @@ int main() {
     }
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
-    float min = INF;
+    float min = INF_DFS;
     int shortestRoute[15];
     float localDistance = 0;
     clock_t start_time, end_time;
