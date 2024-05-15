@@ -135,7 +135,7 @@ int dfs(char fileName[MAX], char startCity[MAX]){
     DFS_Algorithm(startCityInd, startCityInd, startCityInd, adjacencyMatrix, numVertices, &depth, &min, &localDistance, shortestRoute);
 
     // Pengoutputan rute dan jarak terbaik untuk TSP
-    printf("\nBest route found:\n%s", cityName[startCityInd]);
+    printf("Best route found:\n%s", cityName[startCityInd]);
     for(int i = 1; i < numVertices+1; i++){
         printf(" -> %s", cityName[shortestRoute[i]]);
     }

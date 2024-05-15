@@ -77,7 +77,7 @@ int greedy(char path_file[MAX], char startCity[MAX]){
     open_init(path_file, matrix, namaKota, &n);
     search(startCity, namaKota, &ind_kota);
 
-    printf("Best route found: ");                                                     // Waktu mulai menjalankan algoritma
+    printf("Best route found:\n");                                                     // Waktu mulai menjalankan algoritma
     travellingsalesman(ind_kota, ind_kota,matrix, visited, n, &cost, namaKota); // Memanggil algoritma greedy               // Menghitung selisih waktu
     printf("\nBest route distance: ");                                          // Mencetak output pada layar
     printf("%.5f\n", cost);

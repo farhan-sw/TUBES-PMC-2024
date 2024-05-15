@@ -56,6 +56,9 @@ int main() {
 
     } while (startCityIndex == -1);
 
+    // print start kalkulasi
+    printf("Menghitung waktu untuk menjalankan algoritma...\n\n");
+
 
     // Run DFS Algorithm
     printf("DFS Algorithm\n");

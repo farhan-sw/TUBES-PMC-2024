@@ -12,7 +12,7 @@ Proyek ini merupakan bagian dari tugas besar dalam mata kuliah Penyelesaian Masa
 ## Cara Run dan Compile
 ### Menggunakan Makefile
 1. Pastikan Makefile tersedia di direktori utama proyek.
-2. Jalankan perintah `make` untuk mengkompilasi semua berkas.
+2. Jalankan perintah `c_main` untuk mengkompilasi berkas dan `r_main` untuk run code.
 3. Setelah itu, jalankan program utama dengan perintah `./main`.
 
 ### Compile Manual dari Terminal
