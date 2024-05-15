@@ -37,11 +37,6 @@ void branchAndBound(float adjacencyMatrix[MAX_CITY][MAX_CITY], int path[MAX_CITY
         return;
     }
 
-    // Pruning: Memeriksa apakah biaya saat ini sudah melebihi minCost
-    if (cost >= *minCost) {
-        return;
-    }
-
     // Kasus Rekursif
     for (int i = 0; i < numVertices; i++) {
         if (adjacencyMatrix[path[currentCity - 1]][i] != 0 && !visited[i]) {
@@ -52,7 +47,6 @@ void branchAndBound(float adjacencyMatrix[MAX_CITY][MAX_CITY], int path[MAX_CITY
         }
     }
 }
-
 
 int bnb(char path_file[MAX], char startCity[MAX]) {
     int path[MAX_CITY];
