@@ -14,7 +14,7 @@
 
 int vis[15], permutation[15], n;
 int best_route[15];
-float matriks[15][15];
+double adj[15][15];
 char namaKota[15][255];
 char namaFile[255];
 double min_cost = 1e9;
@@ -23,10 +23,10 @@ void generate(int x) {
     if(x >= n) { // basis rekursi
         double cost = 0;
         for(int i = 1; i < n; ++i) {
-            cost += matriks[permutation[i - 1]][permutation[i]];
+            cost += adj[permutation[i - 1]][permutation[i]];
         }
 
-        cost += matriks[permutation[n - 1]][permutation[0]];
+        cost += adj[permutation[n - 1]][permutation[0]];
 
         if(cost < min_cost) { // update minimum cost and the best route
             min_cost = cost;
@@ -65,6 +65,7 @@ void find_starting_point(char *point, int *index) {
 }
 
 void bruteForce(char namaFile[255], char *startingPoint) {
+    open_init(namaFile, adj, namaKota, &n);
     int index = -1;
     find_starting_point(startingPoint, &index); // finding starting point with linier search
     assert(index != -1);        // make sure index nya nemu
