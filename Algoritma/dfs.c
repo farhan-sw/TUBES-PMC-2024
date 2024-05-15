@@ -116,27 +116,15 @@ void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacenc
 int dfs(char fileName[MAX], char startCity[MAX]){
 
     // Inisiasi variable pokok
-    char fileName[MAX];
     float adjacencyMatrix[15][15];
     int numVertices;        
     char cityName[15][MAX];
-    // Pngambilan nama file
-    printf("Enter list of cities file name: ");
-    scanf("%s", fileName);
-    // Proses pembukaan file, dan pengisian variable-variable pokok
-    if (open_init(fileName, adjacencyMatrix, cityName, &numVertices) == 0){
-        return 0;
-    }
-    // Penerimaan input titik mulai
-    char startCiy[MAX];
-    printf("Enter starting point: ");
-    scanf("%s", startCiy);
-    int startCityInd = find_city_index(cityName, startCiy);
-    //Pengecekan apakah nama start kota yang diinput ada dalam file data
-    if (startCityInd == -1){
-        printf("\n%s coordinates is not available in the database!", startCiy);
-        return 0;
-    }
+
+    // Membuka file dan menyimpan jarak dalam graph
+    open_init(fileName, adjacencyMatrix, cityName, &numVertices);
+
+    int startCityInd = find_city_index(cityName, startCity);
+
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
     float min = INF;

@@ -47,7 +47,7 @@ void travellingsalesman(int current_vertex, int starting_vertex, float matrix[15
       }
    }
    
-   if(min != 999) {                                                 // Jika ada jarak minimum cost/jarak ditambahkan
+   if(min != 9999999999) {                                           // Jika ada jarak minimum cost/jarak ditambahkan
       (*cost) = (*cost) + min;
    }
    if(adj_vertex == 999) {
