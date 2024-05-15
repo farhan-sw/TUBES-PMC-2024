@@ -65,6 +65,8 @@ void find_starting_point(char *point, int *index) {
 }
 
 
+
+
 int main(){
     clock_t start_time, end_time;
     double time_taken;
