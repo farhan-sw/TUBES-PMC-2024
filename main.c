@@ -9,6 +9,7 @@
 #include "algoritma\dfs.h"
 #include "algoritma\bnb.h"
 #include "algoritma\greedy.h"
+#include "algoritma\bruteforce.h"
 
 /* Include Utils */
 #include "utils\openFile.h"
@@ -89,6 +90,13 @@ int main() {
     // Hitung waktu yang dibutuhkan dalam detik
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Greedy Time: %.20f\n\n", time_taken);
+
+    puts("Brute Force Algorithm");
+    start = clock();
+    bruteForce(path, startCity);
+    end = clock();
+    time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Brute Force Time: %.20f\n\n", time_taken);
 
     return 0;
 }
