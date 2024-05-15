@@ -46,7 +46,7 @@ int open_init(char *namaFile, float matriks[15][15], char namaKota[15][255], int
     }
     
     // Pengecekan apakah jumlah kota sesuai ketentuan (6 <= jumlah kota <= 15)
-    if (*n < 5 || *n > 14){
+    if (*n < 6 || *n > 15){
         printf("\nJumlah kota tidak sesuai!");
         return 0;
     }
