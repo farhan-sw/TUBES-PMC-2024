@@ -14,7 +14,7 @@
 
 int vis[15], permutation[15], n;
 int best_route[15];
-double adj[15][15];
+float adj[15][15];
 char namaKota[15][255];
 char namaFile[255];
 double min_cost = 1e9;
