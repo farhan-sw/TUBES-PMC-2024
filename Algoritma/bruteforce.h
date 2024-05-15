@@ -10,7 +10,7 @@ void output_best_route();
 
 void find_starting_point();
 
-void bruteForce(char namaFile[MAX], char *startingPoint);
+void bruteForce(char namaFile[MAX], char startingPoint[MAX]); 
 
 #endif
 

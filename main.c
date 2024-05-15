@@ -24,7 +24,7 @@ int main() {
 
     /* Meminta Input Nama File dan Kota */
     char fileName[MAX_CHAR];
-    char path[MAX_CITY];
+    char path[MAX_CHAR];
     char city[MAX_CITY][MAX_CHAR];
     float adjacencyMatrix[MAX_CITY][MAX_CITY];
     int numVertices;
@@ -95,6 +95,7 @@ int main() {
     start = clock();
     bruteForce(path, startCity);
     end = clock();
+
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Brute Force Time: %.20f\n\n", time_taken);
 
