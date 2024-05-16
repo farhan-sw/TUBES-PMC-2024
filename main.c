@@ -66,34 +66,25 @@ int main() {
 
     // Run DFS Algorithm
     printf("DFS Algorithm\n");
-    // Jalankan timer
     start = clock();
     dfs(path, startCity);
-    // Stop timer
     end = clock();
-    // Hitung waktu yang dibutuhkan dalam detik
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("DFS Time: %.20f\n\n", time_taken);
 
     // Run Branch and Bound Algorithm
     printf("Branch and Bound Algorithm\n");
-    // Jalankan timer
     start = clock();
     bnb(path, startCity);
-    // Stop timer
     end = clock();
-    // Hitung waktu yang dibutuhkan dalam detik
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Branch and Bound Time: %.20f\n\n", time_taken);
 
     // Run Greedy Algorithm
     printf("Greedy Algorithm\n");
-    // Jalankan timer
     start = clock();
     greedy(path, startCity);
-    // Stop timer
     end = clock();
-    // Hitung waktu yang dibutuhkan dalam detik
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Greedy Time: %.20f\n\n", time_taken);
 

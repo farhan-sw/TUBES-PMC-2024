@@ -1,21 +1,27 @@
 #ifndef BNB_H
 #define BNB_H
 
+#include <stdio.h>
 #include <stdbool.h>
+#include <limits.h>
+#include <string.h>
+#include <float.h>
+#include <stdlib.h>
+
+#define INF FLT_MAX
+
+#include "..\utils\openFile.h"
+#include "..\utils\constants.h"
 
 #define MAX 255
 #define MAX_CITY 15
 
-// Fungsi untuk mencari indeks kota dalam list
-int findCityIndex(char listOfCities[MAX_CITY][MAX], char city[MAX]);
+void copyToFinal(int curr_path[]);
+float firstMin(float adj[MAX_CITY][MAX_CITY], int i);
+float secondMin(float adj[MAX_CITY][MAX_CITY], int i);
+void TSPRec(float adj[MAX_CITY][MAX_CITY], float curr_bound, float curr_weight, int level, int curr_path[]);
+void TSP(float adj[MAX_CITY][MAX_CITY], int start_city);
 
-// Fungsi untuk mendapatkan nama kota berdasarkan indeks
-char *getCityName(char listOfCities[MAX_CITY][MAX], int index);
-
-// Fungsi rekursif untuk algoritma Branch and Bound
-void branchAndBound(float adjacencyMatrix[MAX_CITY][MAX_CITY], int path[MAX_CITY], bool visited[MAX_CITY], int currentCity, int startCity, int numVertices, float cost, float *minCost);
-
-// Fungsi untuk menjalankan algoritma Branch and Bound
-int bnb(char path_file[MAX], char startCity[MAX]);
+int bnb(char path_file[MAX_CHAR], char startCity[MAX_CHAR]);
 
 #endif /* BRANCH_AND_BOUND_H */

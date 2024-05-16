@@ -4,7 +4,6 @@
 #include <stdbool.h>
 
 #define MAX 255
-#define INF 999999
 
 // Fungsi untuk mengolah stack
 void push(int newdat);
