@@ -55,7 +55,7 @@ int main() {
     scanf("%s", startCity);
     CityExist = isCityExist(city, startCity, numVertices);
 
-    while (CityExist != 1) {
+    while (CityExist == 0) {
         printf("Kota tidak ditemukan, silahkan masukkan kembali: ");
         scanf("%s", startCity);
         CityExist = isCityExist(city, startCity, numVertices);
@@ -63,7 +63,6 @@ int main() {
 
     // print start kalkulasi
     printf("Menghitung waktu untuk menjalankan algoritma...\n\n");
-
 
     // Run DFS Algorithm
     printf("DFS Algorithm\n");

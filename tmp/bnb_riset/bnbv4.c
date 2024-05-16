@@ -1,19 +1,9 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <string.h>
 #include <float.h>
-#include <stdlib.h>
-
-#define INF FLT_MAX
-
-#include "..\utils\openFile.h"
-#include "..\utils\constants.h"
-
-int isDebug = 0;
+#include <string.h>
 
 // Maksimal nilai N yang dapat diterima
-#define MAX_N 15
+#define MAX_N 10
 
 int final_path[MAX_N + 1];
 float final_res = FLT_MAX;
@@ -101,53 +91,41 @@ void TSP(float adj[MAX_N][MAX_N], int start_city) {
     TSPRec(adj, curr_bound, 0, 1, curr_path);
 }
 
-int bnb(char path_file[MAX_CHAR], char startCity[MAX_CHAR]) {
-    float adjacencyMatrix[MAX_CITY][MAX_CITY];
-    char cityName[MAX_CITY][MAX_CHAR];
-
-    open_init(path_file, adjacencyMatrix, cityName, &N);
-
-    // Cari index kota awal
-    int startCityIndex = isCityExist(cityName, startCity, N);
-
-    // Copy Adjacency Matrix ke adj matrix berukuran numVertices
-    float adj[MAX_CITY][MAX_CITY];
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            adj[i][j] = adjacencyMatrix[i][j];
-        }
+int main() {
+    printf("Enter the number of cities (max %d): ", MAX_N);
+    scanf("%d", &N);
+    if (N < 2 || N > MAX_N) {
+        printf("Invalid number of cities!");
+        return 1;
     }
+    
+    float adj[MAX_N][MAX_N] = { {0, 1, 15, 20},
+                        {1, 0, 35, 25},
+                        {15, 35, 0, 30},
+                        {20, 25, 30, 0}
+                    };
 
-    if(isDebug){
-    printf("N: %d\n", N);
-    printf("Start City Index: %d\n", startCityIndex);}
-
-    // Algoritma BNB
-    TSP(adj, startCityIndex);
-
-    // printf("Path Taken : ");
-    // for (int i = 0; i <= N; i++)
-    //     printf("%d ", final_path[i]);
-
-    // Print Rute
-    printf("Best route found: \n");
-    for (int i = 0; i <= N; i++) {
-        printf("%s", cityName[final_path[i]]);
-        if (i != N) {
-            printf(" -> ");
-        }
+    int start_city;
+    printf("Enter the index of the starting city (0 to %d): ", N - 1);
+    scanf("%d", &start_city);
+    if (start_city < 0 || start_city >= N) {
+        printf("Invalid starting city index!");
+        return 1;
     }
-    printf("\n");
+    TSP(adj, start_city);
 
     // Calculate Minimum Cost from final_path and costMatrix
     float minCost = 0;
     for (int i = 0; i < N; i++) {
-        if(isDebug)
-            printf("Cost from %d to %d: %.2f\n", final_path[i], final_path[i + 1], adj[final_path[i]][final_path[i + 1]]);
+        printf("Cost from %d to %d: %.2f\n", final_path[i], final_path[i + 1], adj[final_path[i]][final_path[i + 1]]);
         minCost += adj[final_path[i]][final_path[i + 1]];
     }
-    printf("Best route distance: %.5f km\n", minCost);
-    
+    printf("Minimum Cost: %.2f\n", minCost);
 
+    printf("Minimum cost : %.2f\n", final_res);
+
+    printf("Path Taken : ");
+    for (int i = 0; i <= N; i++)
+        printf("%d ", final_path[i]);
     return 0;
 }
