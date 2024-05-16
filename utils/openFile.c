@@ -1,11 +1,22 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+#include "openFile.h"
 
 #define pi 3.1416
 #define r 6371
 //#define MAX 255
+
+int isCityExist(char city[MAX_CITY][MAX_CHAR], char cityName[MAX_CHAR], int numVertices) {
+    for (int i = 0; i < numVertices; i++) {
+        if (strcmp(city[i], cityName) == 0) {
+            return i;
+        }
+    }
+    return 0;
+}
+
+// return string Kota dari Index Kota
+char* getCityName(char city[MAX_CITY][MAX_CHAR], int index) {
+    return city[index];
+}
 
 int count_delim(char *string, char delim){
     int n = 0;

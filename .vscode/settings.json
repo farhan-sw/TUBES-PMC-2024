@@ -63,6 +63,8 @@
     "stdio.h": "c",
     "dfs.h": "c",
     "constants.h": "c",
-    "bruteforce.h": "c"
+    "bruteforce.h": "c",
+    "string.h": "c",
+    "float.h": "c"
   }
 }

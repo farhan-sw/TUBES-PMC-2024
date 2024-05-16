@@ -49,14 +49,17 @@ int main() {
 
     /* do-while Loop untuk meminta input kota sampai benar */
     char startCity[MAX_CHAR];
-    int startCityIndex;
-    do {
-        printf("Masukkan kota awal: ");
+    bool CityExist = false;
+
+    printf("Masukkan kota awal: ");
+    scanf("%s", startCity);
+    CityExist = isCityExist(city, startCity, numVertices);
+
+    while (CityExist != 1) {
+        printf("Kota tidak ditemukan, silahkan masukkan kembali: ");
         scanf("%s", startCity);
-
-        startCityIndex = findCityIndex(city, startCity);
-
-    } while (startCityIndex == -1);
+        CityExist = isCityExist(city, startCity, numVertices);
+    }
 
     // print start kalkulasi
     printf("Menghitung waktu untuk menjalankan algoritma...\n\n");

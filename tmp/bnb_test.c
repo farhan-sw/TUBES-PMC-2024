@@ -1,14 +1,9 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <string.h>
-#include <float.h>
 #include <stdlib.h>
+#include <float.h>
+#include <time.h>
 
 #define INF FLT_MAX
-
-#include "..\utils\openFile.h"
-#include "..\utils\constants.h"
 
 // Node structure for State Space Tree
 typedef struct Node {
@@ -99,7 +94,14 @@ int compareNodes(const void* a, const void* b) {
     return ((Node*)a)->cost - ((Node*)b)->cost;
 }
 
-Node* solve(int startCity, int N, float costMatrix[N][N]) {
+void printPath(int* path, int level) {
+    for (int i = 0; i <= level; i++) {
+        printf("%d ", path[i]);
+    }
+    printf("0\n");
+}
+
+float solve(int startCity, int N, float costMatrix[N][N]) {
     float** initialMatrix = (float**)malloc(N * sizeof(float*));
     for (int i = 0; i < N; i++) {
         initialMatrix[i] = (float*)malloc(N * sizeof(float));
@@ -125,11 +127,15 @@ Node* solve(int startCity, int N, float costMatrix[N][N]) {
 
         if (min->level == N - 1) {
             min->path[min->level + 1] = startCity;
+            printPath(min->path, min->level);
+            float result = min->cost;
             for (int k = 0; k < N; k++) {
                 free(min->reducedMatrix[k]);
             }
             free(min->reducedMatrix);
-            return min;
+            free(min->path);
+            free(min);
+            return result;
         }
 
         for (int j = 0; j < N; j++) {
@@ -146,45 +152,32 @@ Node* solve(int startCity, int N, float costMatrix[N][N]) {
         free(min->path);
         free(min);
     }
-    return NULL;
+    return 0;
 }
 
-int bnb(char path_file[MAX_CHAR], char startCity[MAX_CHAR]) {
-    float adjacencyMatrix[MAX_CITY][MAX_CITY];
-    char cityName[MAX_CITY][MAX_CHAR];
-    int numVertices;
+int main() {
+    int N = 4; // Number of cities
+    float costMatrix[4][4] = {
+        {INF, 10.0f, 15.0f, 20.0f},
+        {10.0f, INF, 35.0f, 25.0f},
+        {15.0f, 35.0f, INF, 30.0f},
+        {20.0f, 25.0f, 30.0f, INF}
+    };
 
-    open_init(path_file, adjacencyMatrix, cityName, &numVertices);
-    // Pastikan kota dari kota itu sendiri INF
-    for (int i = 0; i < numVertices; i++) {
-        adjacencyMatrix[i][i] = INF;
-    }
+    int startCity;
+    printf("Enter the starting city (0 to %d): ", N-1);
+    scanf("%d", &startCity);
 
-    // Cari index kota awal
-    int startCityIndex = isCityExist(cityName, startCity, numVertices);
+    // Print adjacency matrix
+    printf("Adjacency matrix:\n");
 
-    // Algoritma BNB
-    Node* finalNode = solve(startCityIndex, numVertices, adjacencyMatrix);
+    clock_t start = clock();
+    float cost = solve(startCity, N, costMatrix);
+    clock_t end = clock();
+    double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    if (finalNode != NULL) {
-        printf("Best route found: \n");
-        for (int i = 0; i < numVertices; i++) {
-            printf("%s -> ", cityName[finalNode->path[i]]);
-        }
-        printf("%s\n", cityName[finalNode->path[0]]);
-
-        /// Calculate Cost from Path
-        float cost = 0.0;
-        // Start calculating cost from the second city to the last city and back to the start city
-        for (int i = 1; i < numVertices; i++) {
-            cost += adjacencyMatrix[finalNode->path[i - 1]][finalNode->path[i]];
-        }
-
-        printf("Best route distance: %.5f km\n", cost);
-
-        free(finalNode->path);
-        free(finalNode);
-    }
+    printf("Cost: %.2f\n", cost);
+    printf("Time: %.7f seconds\n", time_taken);
 
     return 0;
 }
