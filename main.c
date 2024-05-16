@@ -10,6 +10,7 @@
 #include "algoritma\bnb.h"
 #include "algoritma\greedy.h"
 #include "algoritma\bruteforce.h"
+#include "algoritma\ant.h"
 
 /* Include Utils */
 #include "utils\openFile.h"
@@ -34,7 +35,7 @@ int main() {
     scanf("%s", fileName);
 
     /* Gabung path data dengan nama file */
-    strcat(path, "data\\");
+    strcpy(path, "data\\");
     strcat(path, fileName);
 
     while(open_init(path, adjacencyMatrix, city, &numVertices) == 0) {
@@ -42,7 +43,7 @@ int main() {
         scanf("%s", fileName);
 
         /* Gabung path data dengan nama file */
-        strcat(path, "data\\");
+        strcpy(path, "data\\");
         strcat(path, fileName);
     }
 
@@ -94,13 +95,20 @@ int main() {
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Greedy Time: %.20f\n\n", time_taken);
 
+    // Run Brute Force Algorithm
     puts("Brute Force Algorithm");
     start = clock();
     bruteForce(path, startCity);
     end = clock();
-
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Brute Force Time: %.20f\n\n", time_taken);
 
+    // Run Ant Algorithm
+    puts("Ant Algorithm");
+    start = clock();
+    ant(path, startCity);
+    end = clock();
+    time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Ant Time: %.20f\n\n", time_taken);
     return 0;
 }

@@ -76,16 +76,15 @@ int copy_stack(int shortestRoute[15], int n){
 
 // Depth First Search
 void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacencyMatrix[15][15], int numVertices, 
-         int *depth, float *min, float *localDistance, int shortestRoute[15]) {
+         int *depth, float *min, float localDistance, int shortestRoute[15]) {
     // Memasukan kota yang sedang dikunjungi ke dalam stack dan juga menambah jaraknya dari kota sebelumnya
     push(currentCity);
-    *localDistance = *localDistance + adjacencyMatrix[currentCity][lastCity];
     *depth = *depth + 1;
     // Jika telah sampai ke kota terakhir (sebelum kembali ke titik awal)
     if (*depth == numVertices){
         push(destination);
         // Pengecekan apakah total jarak untuk satu jalur lebih kecil dari total jarak sebelumnya
-        float finalDistance = *localDistance + adjacencyMatrix[currentCity][destination];
+        float finalDistance = localDistance + adjacencyMatrix[currentCity][destination];
         if (finalDistance < *min){
             *min = finalDistance;
             copy_stack(shortestRoute, numVertices+1);
@@ -93,23 +92,21 @@ void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacenc
         pop();
         // Jarak akhir dan perjalanan akan diakhiri dengan perjalanan ke kota awal
     };
-    // printf("\nProgres : %d %d %f %f", currentCity, *depth, *localDistance, *min);
     // Pencarian kota berikutnya yang akan dikunjungi
     for (int i = 0; i < numVertices; i++){
         // Mencari jalur yang belum dilewati
         if (not_on_stack(i) == 1 && i != currentCity){
             // Menghitung jarak perjalanan berikutnya, bila jarak sementara sebelum kota terakhir sudah lebih besar dari jarak sebelumnya-
             // Perjalanan tidak akan dilanjutkan
-            float futureDistance = *localDistance + adjacencyMatrix[currentCity][i];
+            float futureDistance = localDistance + adjacencyMatrix[currentCity][i];
             if (futureDistance <= *min){
-                DFS_Algorithm(i, currentCity, destination, adjacencyMatrix, numVertices, depth, min, localDistance, shortestRoute);
+                DFS_Algorithm(i, currentCity, destination, adjacencyMatrix, numVertices, depth, min, futureDistance, shortestRoute);
             }
         }
     }
     // Menghilangkan riwayat perjalanan sebelumnya (Proses backtracking DFS_Algorithm)
     pop();
-    *depth = *depth -1;
-    *localDistance = *localDistance - adjacencyMatrix[currentCity][lastCity];
+    *depth -=1;
 }
 
 // Akan Menerima Input Karakter dari Main, karakter Nama File dan Nama Kota
@@ -132,7 +129,7 @@ int dfs(char fileName[MAX], char startCity[MAX]){
     float localDistance = 0;
 
     // Pemanggilan DFS_Algorithm
-    DFS_Algorithm(startCityInd, startCityInd, startCityInd, adjacencyMatrix, numVertices, &depth, &min, &localDistance, shortestRoute);
+    DFS_Algorithm(startCityInd, startCityInd, startCityInd, adjacencyMatrix, numVertices, &depth, &min, 0, shortestRoute);
 
     // Pengoutputan rute dan jarak terbaik untuk TSP
     printf("Best route found:\n%s", cityName[startCityInd]);

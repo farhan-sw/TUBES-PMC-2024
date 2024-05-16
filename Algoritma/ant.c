@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "openFile.h"
+#include "..\utils\openFile.h"
 
 #define ALPHA 1         // Pheromone trail importance factor
 #define BETA 2          // Heuristic information importance factor
@@ -11,6 +11,7 @@
 #define Q 100           // Pheromone deposit factor
 #define MAX_ITER 1000   // Maximum number of iterations
 #define NUM_ANTS 10     // Number of ants
+#define MAX 255
 
 int size;
 
@@ -111,22 +112,13 @@ void antColonyOptimization(float matriks[15][15], float **pheromones, float **de
     free(tour);
 }
 
-int main() {
+int ant(char path_file[MAX], char startCity[MAX]) {
     char namaFile[255];
     float matriks[15][15];
     int n = 0;
     char namaKota[15][255];
 
-    //Input File
-    printf("Masukkan File: ");
-    scanf("%s", namaFile);
-    char tokenStr[100];
-    strcpy(tokenStr, namaFile);
-    char *token;
-
-    if (open_init(namaFile, matriks, namaKota, &n) == 0){
-        return 0;
-    }
+    open_init(path_file, matriks, namaKota, &n);
 
     size = n; // Update size to be the number of cities read
 
@@ -145,14 +137,10 @@ int main() {
     int *bestTour = (int*)malloc(size * sizeof(int));
     float bestTourLength = -1;
 
-    char startingCity[100];
-    printf("Masukkan Kota Awal: ");
-    scanf("%s", startingCity);
-
     // Find the index of the starting city
     int startingIndex;
     for (int i = 0; i < size; i++) {
-        if (strcmp(startingCity, namaKota[i]) == 0) {
+        if (strcmp(startCity, namaKota[i]) == 0) {
             startingIndex = i;
             break;
         }
@@ -177,14 +165,14 @@ int main() {
         }
     }
 
-    printf("\nBest Tour starting from %s: ", startingCity);
+    printf("Best route found:\n");
     for (int i = 0; i < size; i++) {
         printf("%s -> ", namaKota[bestTourIndices[(startIndexInTour + i) % size]]);
     }
 
     printf("%s\n", namaKota[bestTourIndices[startIndexInTour]]); // Print the starting city again to complete the tour
 
-    printf("Best Tour Length: %.5lf km\n", bestTourLength);
+    printf("Best route distance: %.5lf km\n", bestTourLength);
 
     // Deallocate memory
     free(bestTourIndices);

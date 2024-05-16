@@ -17,11 +17,11 @@ int best_route[15];
 float adj[15][15];
 char namaKota[15][255];
 char namaFile[255];
-double min_cost = 1e9;
+float min_cost = 1e9;
 
 void generate(int x) {
     if(x >= n) { // basis rekursi
-        double cost = 0;
+        float cost = 0;
         for(int i = 1; i < n; ++i) {
             cost += adj[permutation[i - 1]][permutation[i]];
         }
@@ -52,7 +52,7 @@ void output_best_route(){
     }
 
     printf("%s\n", namaKota[best_route[0]]);
-    printf("Best route distance: %.10lf\n",min_cost);
+    printf("Best route distance: %.5f km\n",min_cost);
 }
 
 void find_starting_point(char *point, int *index) {

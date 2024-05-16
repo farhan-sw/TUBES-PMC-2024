@@ -80,6 +80,6 @@ int greedy(char path_file[MAX], char startCity[MAX]){
     printf("Best route found:\n");                                                     // Waktu mulai menjalankan algoritma
     travellingsalesman(ind_kota, ind_kota,matrix, visited, n, &cost, namaKota); // Memanggil algoritma greedy               // Menghitung selisih waktu
     printf("\nBest route distance: ");                                          // Mencetak output pada layar
-    printf("%.5f\n", cost);
+    printf("%.5f km\n", cost);
     return 0;                                                                   // Program berakhir
 }
