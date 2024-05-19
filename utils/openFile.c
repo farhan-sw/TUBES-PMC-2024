@@ -10,7 +10,7 @@ int isCityExist(char city[MAX_CITY][MAX_CHAR], char cityName[MAX_CHAR], int numV
             return i;
         }
     }
-    return 0;
+    return -1;
 }
 
 // return string Kota dari Index Kota

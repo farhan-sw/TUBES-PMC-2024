@@ -55,7 +55,7 @@ int main() {
     scanf("%s", startCity);
     CityExist = isCityExist(city, startCity, numVertices);
 
-    while (CityExist == 0) {
+    while (CityExist == -1) {
         printf("Kota tidak ditemukan, silahkan masukkan kembali: ");
         scanf("%s", startCity);
         CityExist = isCityExist(city, startCity, numVertices);

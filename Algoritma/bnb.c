@@ -2,7 +2,7 @@
 
 /**
  *  ======================== ALGORITMA BRANCH AND BOUND ========================
- * Algoritma ini digunakan untuk menyelesaikan Travelling Salesman Problem (TSP)
+ * Algoritma ini digunakan untuk menyelesaikan Travelling Salesman Problem (BNB_Main)
  * dengan menggunakan pendekatan Branch and Bound.
  * 
  * Pembuat: 13222114 / Muhammad Farhan
@@ -19,7 +19,7 @@ int isDebug = 0;
 
 
 /* ======================== DEKLARASI VARIABEL GLOBAL ======================== */
-int final_path[MAX_CITY + 1];
+int path_tmp[MAX_CITY + 1];
 float final_res = FLT_MAX;
 int visited[MAX_CITY];
 int N;
@@ -30,10 +30,10 @@ int N;
  * @brief Copy path yang sedang dijalankan ke path final
  * @param curr_path Path yang sedang dijalankan
 */
-void copyToFinal(int curr_path[]) {
+void CopyPath(int curr_path[]) {
     for (int i = 0; i < N; i++)
-        final_path[i] = curr_path[i];
-    final_path[N] = curr_path[0];
+        path_tmp[i] = curr_path[i];
+    path_tmp[N] = curr_path[0];
 }
 
 /**
@@ -42,7 +42,7 @@ void copyToFinal(int curr_path[]) {
  * @param i Indeks baris
  * @return Nilai minimum pertama
 */
-float firstMin(float adj[MAX_CITY][MAX_CITY], int i) {
+float MinAdj_First(float adj[MAX_CITY][MAX_CITY], int i) {
     float min = FLT_MAX;
     for (int k = 0; k < N; k++)
         if (adj[i][k] < min && i != k)
@@ -56,7 +56,7 @@ float firstMin(float adj[MAX_CITY][MAX_CITY], int i) {
  * @param i Indeks baris
  * @return Nilai minimum kedua
 */
-float secondMin(float adj[MAX_CITY][MAX_CITY], int i) {
+float MinAdj_Sec(float adj[MAX_CITY][MAX_CITY], int i) {
     float first = FLT_MAX, second = FLT_MAX;
     for (int j = 0; j < N; j++) {
         if (i == j)
@@ -78,14 +78,14 @@ float secondMin(float adj[MAX_CITY][MAX_CITY], int i) {
  * @param level Level saat ini
  * @param curr_path Path saat ini
 */
-void TSPRec(float adj[MAX_CITY][MAX_CITY], float curr_bound, float curr_weight,
+void BNB_Rekursif(float adj[MAX_CITY][MAX_CITY], float curr_bound, float curr_weight,
             int level, int curr_path[]) {
     if (level == N) {                                                       // Jika sudah mencapai level maksimal
         if (adj[curr_path[level - 1]][curr_path[0]] != 0) {                 // Jika kota terakhir terhubung dengan kota awal
             float curr_res = curr_weight +                                  // Menambahkan bobot
                 adj[curr_path[level - 1]][curr_path[0]];
             if (curr_res < final_res) {                                     // Jika bobot saat ini lebih kecil dari bobot terakhir
-                copyToFinal(curr_path);                                     // Copy path saat ini ke path final
+                CopyPath(curr_path);                                     // Copy path saat ini ke path final
                 final_res = curr_res;
             }
         }
@@ -99,15 +99,15 @@ void TSPRec(float adj[MAX_CITY][MAX_CITY], float curr_bound, float curr_weight,
             curr_weight += adj[curr_path[level - 1]][i];                    // Menambahkan bobot
 
             if (level == 1)                                                 // Mengurangi batas
-                curr_bound -= ((firstMin(adj, curr_path[level - 1]) +
-                                firstMin(adj, i)) / 2);
+                curr_bound -= ((MinAdj_First(adj, curr_path[level - 1]) +
+                                MinAdj_First(adj, i)) / 2);
             else
-                curr_bound -= ((secondMin(adj, curr_path[level - 1]) +
-                                firstMin(adj, i)) / 2);
+                curr_bound -= ((MinAdj_Sec(adj, curr_path[level - 1]) +
+                                MinAdj_First(adj, i)) / 2);
             if (curr_bound + curr_weight < final_res) {
                 curr_path[level] = i;
                 visited[i] = 1;
-                TSPRec(adj, curr_bound, curr_weight, level + 1,
+                BNB_Rekursif(adj, curr_bound, curr_weight, level + 1,
                         curr_path);
             }
 
@@ -125,18 +125,18 @@ void TSPRec(float adj[MAX_CITY][MAX_CITY], float curr_bound, float curr_weight,
  * @param adj Adjacency matrix
  * @param start_city Kota awal
 */
-void TSP(float adj[MAX_CITY][MAX_CITY], int start_city) {
+void BNB_Main(float adj[MAX_CITY][MAX_CITY], int start_city) {
     int curr_path[MAX_CITY + 1];   
     float curr_bound = 0;
     memset(curr_path, -1, sizeof(curr_path));
     memset(visited, 0, sizeof(visited));
     for (int i = 0; i < N; i++)                                                 // Menghitung batas
-        curr_bound += (firstMin(adj, i) + secondMin(adj, i));                   
+        curr_bound += (MinAdj_First(adj, i) + MinAdj_Sec(adj, i));                   
     curr_bound = (curr_bound < 1) ? 1 :                                         // Jika batas kurang dari 1, maka 1
-                                    curr_bound / 2;
+                                    curr_bound / 2;                             // Jika tidak, dibagi 2
     visited[start_city] = 1;                                                    // Menandai kota awal           
     curr_path[0] = start_city;
-    TSPRec(adj, curr_bound, 0, 1, curr_path);
+    BNB_Rekursif(adj, curr_bound, 0, 1, curr_path);
 }
 
 // ======================== IMPLEMENTASI MAIN FUNCTION ========================
@@ -166,24 +166,24 @@ int bnb(char path_file[MAX_CHAR], char startCity[MAX_CHAR]) {
     printf("Start City Index: %d\n", startCityIndex);}
 
     // Algoritma BNB
-    TSP(adj, startCityIndex);
+    BNB_Main(adj, startCityIndex);
 
     // Print Rute
     printf("Best route found: \n");
     for (int i = 0; i <= N; i++) {                                          // Print rute terbaik
-        printf("%s", cityName[final_path[i]]);
+        printf("%s", cityName[path_tmp[i]]);
         if (i != N) {                                                       // Jika bukan kota terakhir
             printf(" -> ");
         }
     }
     printf("\n");
 
-    // Calculate Minimum Cost from final_path and costMatrix
+    // Calculate Minimum Cost from path_tmp and costMatrix
     float minCost = 0;
     for (int i = 0; i < N; i++) {
         if(isDebug)
-            printf("Cost from %d to %d: %.2f\n", final_path[i], final_path[i + 1], adj[final_path[i]][final_path[i + 1]]);
-        minCost += adj[final_path[i]][final_path[i + 1]];
+            printf("Cost from %d to %d: %.2f\n", path_tmp[i], path_tmp[i + 1], adj[path_tmp[i]][path_tmp[i + 1]]);
+        minCost += adj[path_tmp[i]][path_tmp[i + 1]];
     }
     printf("Best route distance: %.5f km\n", minCost);
     
