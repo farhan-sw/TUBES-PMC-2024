@@ -11,7 +11,7 @@
 #include "algoritma\greedy.h"
 #include "algoritma\bruteforce.h"
 #include "algoritma\ant.h"
-#include "Algoritma\ilp.h"
+#include "algoritma\pso.h"
 
 /* Include Utils */
 #include "utils\openFile.h"
@@ -105,12 +105,12 @@ int main() {
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Ant Time: %.20f\n\n", time_taken);
 
-    // Run Integer Linear Programming
-    puts("Integer Linear Programming");
+    // Run Particle Swarm Optimization Algorithm
+    puts("Particle Swarm Optimization");
     start = clock();
-    ilp(path, startCity);
+    particles(path, startCity);
     end = clock();
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Integer Linear Programming Time: %.20f\n\n", time_taken);
+    printf("Particle Swarm OptimizationTime: %.20f\n\n", time_taken);
     return 0;
 }
