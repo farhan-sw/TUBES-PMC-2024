@@ -50,10 +50,10 @@ void initialize_pso(Particle particles[], int numVertices, int swarmSize, int st
     for (int i = 0; i < swarmSize; i++) {
         memcpy(particles[i].path, tempPath, sizeof(int) * numVertices);
         for (int j = 1; j < numVertices; j++) { 
-            int rt = rand() % (numVertices - 1) + 1; 
+            int ran = rand() % (numVertices - 1) + 1; 
             int temp = particles[i].path[j];
-            particles[i].path[j] = particles[i].path[rt];
-            particles[i].path[rt] = temp;
+            particles[i].path[j] = particles[i].path[ran];
+            particles[i].path[ran] = temp;
         }
         particles[i].fitness = INF_PSO;
         particles[i].pbest_fitness = INF_PSO;
