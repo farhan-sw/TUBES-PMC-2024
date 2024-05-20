@@ -11,6 +11,7 @@
 #include "algoritma\greedy.h"
 #include "algoritma\bruteforce.h"
 #include "algoritma\ant.h"
+#include "Algoritma\ilp.h"
 
 /* Include Utils */
 #include "utils\openFile.h"
@@ -103,5 +104,13 @@ int main() {
     end = clock();
     time_taken = ((double)end - start) / CLOCKS_PER_SEC;
     printf("Ant Time: %.20f\n\n", time_taken);
+
+    // Run Integer Linear Programming
+    puts("Integer Linear Programming");
+    start = clock();
+    ilp(path, startCity);
+    end = clock();
+    time_taken = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Integer Linear Programming Time: %.20f\n\n", time_taken);
     return 0;
 }
