@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "/home/em/Downloads/TUBES-PMC-2024-main/utils/openFile.h"
+#include "..\utils\openFile.h"
 
 #define MAX 255
 #define SWARM_SIZE 200
