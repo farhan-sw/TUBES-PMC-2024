@@ -19,8 +19,8 @@
 typedef struct {
     int path[MAX];
     double fitness;
-    int pbest[MAX];
-    double pbest_fitness;
+    int partikel_best[MAX];
+    double partikel_best_fitness;
     double velocity[MAX];
 } Particle;
 
@@ -28,8 +28,8 @@ typedef struct {
 double calculate(float adjacencyMatrix[15][15], int path[], int numVertices);
 void initialize_pso(Particle particles[], int numVertices, int swarmSize, int destinationIndex);
 void swap(int *a, int *b);
-void update_particles(Particle particles[], int numVertices, int swarmSize, int gbest[], double inertia, double cognitive, double social);
-void copy(int src[], int dest[], int size);
+void update_particles(Particle particles[], int numVertices, int swarmSize, int global_best[], double inertia, double cognitive, double social);
+void copy(int src[], int copied[], int size);
 int particles(char path_file[MAX], char startCity[MAX]);
 
 #endif // PSO_H
