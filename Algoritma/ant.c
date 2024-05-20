@@ -130,7 +130,6 @@ void antColonyOptimization(float matriks[15][15], float **pheromones, float **de
 
 // Fungsi utama untuk menginisialisasi dan menjalankan optimasi koloni semut
 int ant(char path_file[MAX], char startCity[MAX]) {
-    char namaFile[255];
     float matriks[15][15];
     int n = 0;
     char namaKota[15][255];
