@@ -76,7 +76,7 @@ int copy_stack(int shortestRoute[15], int n){
 
 // Depth First Search
 void DFS_Algorithm(int currentCity, int lastCity, int destination,float adjacencyMatrix[15][15], int numVertices, 
-         int *depth, float *min, float localDistance, int shortestRoute[16]) {
+         int *depth, float *min, float localDistance, int shortestRoute[15]) {
     // Memasukan kota yang sedang dikunjungi ke dalam stack dan juga menambah jaraknya dari kota sebelumnya
     push(currentCity);
     *depth = *depth + 1;
@@ -125,7 +125,7 @@ int dfs(char fileName[MAX], char startCity[MAX]){
     // Inisiasi variable yang akan diolah selama proses pencarian jalan
     int depth = 0;
     float min = INF;
-    int shortestRoute[16];
+    int shortestRoute[15];
     float localDistance = 0;
 
     // Pemanggilan DFS_Algorithm
