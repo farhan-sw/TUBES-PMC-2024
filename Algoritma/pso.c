@@ -17,8 +17,8 @@
 typedef struct {
     int path[MAX];
     double fitness;
-    int pbest[MAX];
-    double pbest_fitness;
+    int partikel_best[MAX];
+    double partikel_best_fitness;
     double velocity[MAX];
 } Particle;
 
@@ -37,7 +37,7 @@ double calculate(float adjacencyMatrix[15][15], int path[], int numVertices) {
     return total;
 }
 
-void initialize_pso(Particle particles[], int numVertices, int swarmSize, int startCityIndex) {
+void initialize_pso(Particle particles[], int numVertices, int swarm_size, int startCityIndex) {
     int tempPath[MAX];
     for (int i = 0; i < numVertices; i++) {
         tempPath[i] = i;
@@ -47,7 +47,7 @@ void initialize_pso(Particle particles[], int numVertices, int swarmSize, int st
         swap(&tempPath[0], &tempPath[startCityIndex]);
     }
 
-    for (int i = 0; i < swarmSize; i++) {
+    for (int i = 0; i < swarm_size; i++) {
         memcpy(particles[i].path, tempPath, sizeof(int) * numVertices);
         for (int j = 1; j < numVertices; j++) { 
             int ran = rand() % (numVertices - 1) + 1; 
@@ -56,31 +56,31 @@ void initialize_pso(Particle particles[], int numVertices, int swarmSize, int st
             particles[i].path[ran] = temp;
         }
         particles[i].fitness = INF_PSO;
-        particles[i].pbest_fitness = INF_PSO;
+        particles[i].partikel_best_fitness = INF_PSO;
         memset(particles[i].velocity, 0, sizeof(double) * numVertices);
     }
 }
-void update_particles(Particle particles[], int numVertices, int swarmSize, int gbest[], double inertia, double cognitive, double social) {
-    for (int i = 0; i < swarmSize; i++) {
+void update_particles(Particle particles[], int numVertices, int swarm_size, int global_best[], double inertia, double cognitive, double social) {
+    for (int i = 0; i < swarm_size; i++) {
         for (int j = 0; j < numVertices; j++) {
             double r1 = (double)rand() / RAND_MAX;
             double r2 = (double)rand() / RAND_MAX;
-            particles[i].velocity[j] = inertia * particles[i].velocity[j] + cognitive * r1 * (particles[i].pbest[j] - particles[i].path[j]) + social * r2 * (gbest[j] - particles[i].path[j]);
+            particles[i].velocity[j] = inertia * particles[i].velocity[j] + cognitive * r1 * (particles[i].partikel_best[j] - particles[i].path[j]) + social * r2 * (global_best[j] - particles[i].path[j]);
             
             if (particles[i].velocity[j] > 0.5) particles[i].velocity[j] = 0.5;
             if (particles[i].velocity[j] < -0.5) particles[i].velocity[j] = -0.5;
         }
         for (int j = 0; j < numVertices; j++) {
-            int swapIndex = (j + (int)particles[i].velocity[j]) % numVertices;
-            if (swapIndex < 0) swapIndex += numVertices;
-            swap(&particles[i].path[j], &particles[i].path[swapIndex]);
+            int swapI = (j + (int)particles[i].velocity[j]) % numVertices;
+            if (swapI < 0) swapI += numVertices;
+            swap(&particles[i].path[j], &particles[i].path[swapI]);
         }
     }
 }
 
-void copy(int src[], int dest[], int size) {
+void copy(int src[], int copied[], int size) {
     for (int i = 0; i < size; i++) {
-        dest[i] = src[i];
+        copied[i] = src[i];
     }
 }
 
@@ -100,8 +100,8 @@ int particles(char path_file[MAX], char startCity[MAX]) {
     }
 
     Particle particles[SWARM_SIZE];
-    int gbest[MAX];
-    double gbest_fitness = INF_PSO;
+    int global_best[MAX];
+    double global_best_fitness = INF_PSO;
 
     initialize_pso(particles, numVertices, SWARM_SIZE, destinationIndex);
 
@@ -109,23 +109,23 @@ int particles(char path_file[MAX], char startCity[MAX]) {
         for (int i = 0; i < SWARM_SIZE; i++) {
             particles[i].fitness = calculate(adjacencyMatrix, particles[i].path, numVertices);
 
-            if (particles[i].fitness < particles[i].pbest_fitness) {
-                particles[i].pbest_fitness = particles[i].fitness;
-                copy(particles[i].path, particles[i].pbest, numVertices);
+            if (particles[i].fitness < particles[i].partikel_best_fitness) {
+                particles[i].partikel_best_fitness = particles[i].fitness;
+                copy(particles[i].path, particles[i].partikel_best, numVertices);
             }
 
-            if (particles[i].fitness < gbest_fitness) {
-                gbest_fitness = particles[i].fitness;
-                copy(particles[i].path, gbest, numVertices);
+            if (particles[i].fitness < global_best_fitness) {
+                global_best_fitness = particles[i].fitness;
+                copy(particles[i].path, global_best, numVertices);
             }
         }
-        update_particles(particles, numVertices, SWARM_SIZE, gbest, WEIGHT, C1, C2);
+        update_particles(particles, numVertices, SWARM_SIZE, global_best, WEIGHT, C1, C2);
     }
     printf("Best route found:\n");
     for (int i = 0; i < numVertices; i++) {
-        printf("%s -> ", cityName[gbest[i]]);
+        printf("%s -> ", cityName[global_best[i]]);
     }
-    printf("%s\n", cityName[gbest[0]]);
-    printf("Best route distance: %.5f km\n", gbest_fitness);
+    printf("%s\n", cityName[global_best[0]]);
+    printf("Best route distance: %.5f km\n", global_best_fitness);
     return 0;
 }
